@@ -1,0 +1,13 @@
+.LOGON 153.65.144.102/dbc,dbc; 
+   DATABASE TAFD;
+   create table PermContEmployee
+ (
+  Employee_ID VARCHAR(50), 
+  First_Name VARCHAR(50), 
+  Last_Name VARCHAR(50), 
+  Joining_date VARCHAR(50), 
+  row_time_stamp VARCHAR(50),
+  IUD_Flag VARCHAR(50)
+ );
+.LOGOFF; 
+

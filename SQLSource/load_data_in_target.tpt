@@ -1,0 +1,43 @@
+DEFINE JOB "GEOGRAPHY_1482492259958"
+DESCRIPTION 'Data Loading Job'
+(
+DEFINE SCHEMA SOURCE_SCHEMA
+DESCRIPTION 'SCHEMA INFORMATION'
+(
+		Employee_ID VARCHAR(50), 
+		First_Name VARCHAR(50), 
+		Last_Name VARCHAR(50), 
+		Joining_date VARCHAR(50), 
+		row_time_stamp VARCHAR(50),
+		IUD_Flag VARCHAR(50)
+);
+DEFINE OPERATOR EXPORT_OPERATOR
+DESCRIPTION 'TERADATA PARALLEL TRANSPORTER EXPORT Operator'
+TYPE EXPORT
+SCHEMA SOURCE_SCHEMA
+ATTRIBUTES
+(
+VARCHAR TdpId = '153.65.144.102',
+VARCHAR UserName = 'dbc',
+VARCHAR UserPassword = 'dbc',
+VARCHAR SelectStmt = ' SELECT Employee_ID AS Employee_ID, First_Name AS First_Name, Last_Name AS Last_Name, Joining_date AS Joining_date, row_time_stamp AS row_time_stamp, IUD_Flag AS IUD_Flag FROM TAFD.AllContractorEmployees where Joining_date <''18-10-2016'';'
+);
+DEFINE OPERATOR LOAD_OPERATOR
+DESCRIPTION 'TERADATA PARALLEL TRANSPORTER LOAD Operator'
+TYPE LOAD
+SCHEMA SOURCE_SCHEMA
+ATTRIBUTES
+(
+VARCHAR TdpId = '153.65.144.102',
+VARCHAR UserName = 'dbc',
+VARCHAR UserPassword = 'dbc',
+VARCHAR TargetTable = 'TAFD'||'.ContractorEmployee',
+VARCHAR LogTable = 'TAFD'||'.Empl_TBL'
+);
+STEP DO_SETUP
+(
+APPLY
+('INSERT INTO TAFD.ContractorEmployee(Employee_ID, First_Name, Last_Name, Joining_date, row_time_stamp, IUD_Flag) VALUES (:Employee_ID, :First_Name, :Last_Name, :Joining_date, :row_time_stamp, :IUD_Flag);')
+TO OPERATOR (LOAD_OPERATOR [1])
+SELECT * FROM OPERATOR (EXPORT_OPERATOR [2]););
+);
