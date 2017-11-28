@@ -25,7 +25,9 @@ node {
 				status = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/result.txt"
 			
 				if(status.contains('Unsuccessful')){
+				echo on
 				echo "error"
+				echo off
 				}
 				echo on
 					echo status
