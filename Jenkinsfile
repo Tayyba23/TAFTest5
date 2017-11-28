@@ -30,7 +30,7 @@ node {
 					}
 					catch(err)
 					{
-					echo status
+					currentBuild.result='UNSTABLE'
 					}
 					
         }
