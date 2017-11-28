@@ -24,7 +24,9 @@ node {
 				bat "java -jar LogParser.jar $out temp.txt"
 				status = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/result.txt"
 			
-				if(status.contains('Unsuccessful'))
+				if(status.contains('Unsuccessful')){
+				echo "error"
+				}
 				echo on
 					echo status
 					throw err 
