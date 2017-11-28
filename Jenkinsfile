@@ -25,6 +25,7 @@ node {
 				status = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/result.txt"
 			
 				if(status.contains('Unsuccessful'))
+				echo on
 					echo status
 					throw err 
 					
@@ -35,7 +36,7 @@ node {
 					}
 					
         }
-        stage ('Deploy') {
+        stage ('Deploy') {	
             //update dashboard
             bat "echo 'shell scripts to deploy to server...'"
         }
