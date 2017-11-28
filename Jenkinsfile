@@ -19,7 +19,11 @@ node {
 				echo files
 				def temp="tmp.txt";
 				bat "java -jar LogParser.jar $out temp.txt"
-           
+				def status = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/result.txt
+					if(status.contains('Unsuccessful')
+					echo 'status'
+					
+           echo result
         }
         stage ('Deploy') {
             //update dashboard
