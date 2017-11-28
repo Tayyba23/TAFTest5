@@ -13,19 +13,15 @@ node {
        stage ('Tests') {
 			def status = ""
             try{
-			echo off
               bat "java -jar target\\tafd.jar"
-			  echo on
-				def out= "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}"
+			  def out= "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}"
 				bat "cd $JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER} \n dir /b /a-d > tmp.txt"
 				def files = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/tmp.txt"
 				echo files
 				def temp="tmp.txt";
 				bat "java -jar LogParser.jar $out temp.txt"
 				status = readFile "$JENKINS_HOME/jobs/$JOB_NAME/builds/${BUILD_NUMBER}/result.txt"
-			echo on
 				if(status.contains('Unsuccessful')){
-					echo on
 					echo status
 					throw err 
 					}
@@ -38,7 +34,8 @@ node {
         }
         stage ('Deploy') {	
             //update dashboard
-            bat "echo 'shell scripts to deploy to server...'"
+            bat "echo 'will update dashbaord...'"
+			echo "test"
         }
     } catch (err) {
         currentBuild.result = 'FAILED'
